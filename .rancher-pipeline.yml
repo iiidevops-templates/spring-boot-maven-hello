@@ -6,12 +6,12 @@ stages:
         buildContext: .
         tag: ${CICD_GIT_REPO_NAME}/${CICD_GIT_REPO_NAME}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
         pushRemote: true
-        registry: 10.20.0.73:32443
+        registry: harbor-demo.iiidevops.org
       env:
         PLUGIN_BUILD_ARGS: --progress=tty --network=host
         PLUGIN_DEBUG: "true"
         PLUGIN_INSECURE: "true"
-        PLUGIN_MIRROR: http://10.20.0.73:32443/
+        PLUGIN_MIRROR: https://harbor-demo.iiidevops.org
         PLUGIN_MTU: "1000"
 
   # 部屬使用者應用(app)
@@ -25,10 +25,10 @@ stages:
         targetNamespace: ${CICD_GIT_REPO_NAME}
         answers:
           pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
-          xip.ip: "10.20.0.74"
-          harbor.host: "10.20.0.73:32443"
+          xip.ip: "10.20.0.77"
+          harbor.host: "harbor-demo.iiidevops.org"
           # 基礎pipeline參數
-          git.host: "10.20.0.73"
+          git.host: "gitlab-demo.iiidevops.org"
           git.url: ${CICD_GIT_URL}
           git.branch: ${CICD_GIT_BRANCH}
           git.commitID: ${CICD_GIT_COMMIT}
