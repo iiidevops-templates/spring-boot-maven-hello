@@ -4,7 +4,7 @@ stages:
     - publishImageConfig:
         dockerfilePath: ./Dockerfile
         buildContext: .
-        tag: ${CICD_GIT_REPO_NAME}/${CICD_GIT_REPO_NAME}:${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+        tag: ${CICD_GIT_REPO_NAME}/${CICD_GIT_BRANCH}:latest
         pushRemote: true
         registry: harbor-demo.iiidevops.org
       env:
@@ -13,45 +13,39 @@ stages:
         PLUGIN_INSECURE: "true"
         PLUGIN_MIRROR: https://harbor-demo.iiidevops.org
         PLUGIN_MTU: "1000"
-
-  # (選擇性) 原始碼資安掃描(必須有安裝設定 Checkmarx)
-  - name: Scan source code
+  - name: Deploy apps
     steps:
     - applyAppConfig:
         catalogTemplate: cattle-global-data:iii-dev-charts3-source-scan
         version: 0.1.0
-        name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-source-scan
+        name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-scan
         targetNamespace: ${CICD_GIT_REPO_NAME}
         answers:
           pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
-          xip.ip: "10.20.0.77"
-          harbor.host: "harbor-demo.iiidevops.org"
+          harbor.host: harbor-demo.iiidevops.org
           # 基礎pipeline參數
-          git.host: "gitlab-demo.iiidevops.org"
           git.url: ${CICD_GIT_URL}
           git.repoName: ${CICD_GIT_REPO_NAME}
           git.branch: ${CICD_GIT_BRANCH}
-          git.commitID: "${CICD_GIT_COMMIT}"
+          git.commitID: ${CICD_GIT_COMMIT}
           # web參數設定
           checkmarx.enabled: true
-          checkmarx.runnerVersion: "latest"
-    when:
-      branch:
-        include:
-        - checkmarx
-
-  # 部屬使用者應用(app)
-  - name: Deploy app-web
-    steps:
+          checkmarx.runnerVersion: 2.0.0
+          sonarqube.enabled: true
+          sonarqube.runnerVersion: latest
+      when:
+        branch:
+          include:
+            - master
+            - checkmarx
     - applyAppConfig:
         catalogTemplate: cattle-global-data:iii-dev-charts3-web
-        version: 0.2.1
+        version: 0.3.0
         name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-web
         #targetNamespace: p-v2nzs-pipeline
         targetNamespace: ${CICD_GIT_REPO_NAME}
         answers:
           pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
-          xip.ip: "10.20.0.77"
           harbor.host: "harbor-demo.iiidevops.org"
           # 基礎pipeline參數
           git.host: "gitlab-demo.iiidevops.org"
@@ -59,8 +53,15 @@ stages:
           git.branch: ${CICD_GIT_BRANCH}
           git.commitID: ${CICD_GIT_COMMIT}
           git.repoName: ${CICD_GIT_REPO_NAME}
-          # web參數設定
-          web.type: spring
-          # 10.50.1.63:5443/app/${CICD_GIT_REPO_NAME}-web
-          web.image: ${CICD_GIT_REPO_NAME}/${CICD_GIT_REPO_NAME}
-          web.tag: ${CICD_GIT_BRANCH}-${CICD_GIT_COMMIT}
+          web.port: 8080
+          web.imageTag: ${CICD_GIT_REPO_NAME}/${CICD_GIT_BRANCH}:latest
+          newman.enabled: false
+          newman.runnerVersion: 2.0.1
+          webinspect.enabled: true
+          webinspect.runnerVersion: 1.1.0
+          ingress.externalHost: ingress-demo.iiidevops.org
+      when:
+        branch:
+          include:
+            - master
+            - develop
