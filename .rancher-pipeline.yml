@@ -14,6 +14,32 @@ stages:
         PLUGIN_MIRROR: https://harbor-demo.iiidevops.org
         PLUGIN_MTU: "1000"
 
+  # (選擇性) 原始碼資安掃描(必須有安裝設定 Checkmarx)
+  - name: Scan source code
+    steps:
+    - applyAppConfig:
+        catalogTemplate: cattle-global-data:iii-dev-charts3-source-scan
+        version: 0.1.0
+        name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-source-scan
+        targetNamespace: ${CICD_GIT_REPO_NAME}
+        answers:
+          pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
+          xip.ip: "10.20.0.77"
+          harbor.host: "harbor-demo.iiidevops.org"
+          # 基礎pipeline參數
+          git.host: "gitlab-demo.iiidevops.org"
+          git.url: ${CICD_GIT_URL}
+          git.repoName: ${CICD_GIT_REPO_NAME}
+          git.branch: ${CICD_GIT_BRANCH}
+          git.commitID: "${CICD_GIT_COMMIT}"
+          # web參數設定
+          checkmarx.enabled: true
+          checkmarx.runnerVersion: "latest"
+    when:
+      branch:
+        include:
+        - checkmarx
+
   # 部屬使用者應用(app)
   - name: Deploy app-web
     steps:
