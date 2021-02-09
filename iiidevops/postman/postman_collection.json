@@ -6,13 +6,16 @@
 	},
 	"item": [
 		{
-			"name": "Todos List",
+			"name": "index",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code check\", () => {\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -24,13 +27,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{test_origin}}/todos/list",
+					"raw": "{{test_origin}}",
+					"protocol": "https",
 					"host": [
 						"{{test_origin}}"
-					],
-					"path": [
-						"todos",
-						"list"
 					]
 				}
 			},
