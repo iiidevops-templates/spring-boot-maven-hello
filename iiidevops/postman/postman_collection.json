@@ -12,8 +12,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"pm.test(\"Response time is less than 800ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
 							"});\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -28,7 +28,6 @@
 				"header": [],
 				"url": {
 					"raw": "{{test_origin}}",
-					"protocol": "https",
 					"host": [
 						"{{test_origin}}"
 					]
