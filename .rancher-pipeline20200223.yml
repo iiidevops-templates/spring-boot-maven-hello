@@ -27,8 +27,9 @@ stages:
       name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-cmx
       targetNamespace: ${CICD_GIT_REPO_NAME}
       answers:
-        # Test common answers
+        # Common answers
         pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
+        harbor.host: harbor-demo.iiidevops.org
         git.url: ${CICD_GIT_URL}
         git.repoName: ${CICD_GIT_REPO_NAME}
         git.branch: ${CICD_GIT_BRANCH}
@@ -43,7 +44,7 @@ stages:
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:iii-dev-charts3-web
-      version: 0.5.0
+      version: 0.4.0
       name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-serv
       targetNamespace: ${CICD_GIT_REPO_NAME}
       answers:
@@ -96,6 +97,7 @@ stages:
         web.port: 8080
         # Common answers
         pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
+        harbor.host: harbor-demo.iiidevops.org
         git.url: ${CICD_GIT_URL}
         git.repoName: ${CICD_GIT_REPO_NAME}
         git.branch: ${CICD_GIT_BRANCH}
@@ -115,6 +117,7 @@ stages:
       answers:
         # Common answers
         pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
+        harbor.host: harbor-demo.iiidevops.org
         git.url: ${CICD_GIT_URL}
         git.repoName: ${CICD_GIT_REPO_NAME}
         git.branch: ${CICD_GIT_BRANCH}
