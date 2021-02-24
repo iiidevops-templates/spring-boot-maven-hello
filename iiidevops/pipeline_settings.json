@@ -1,0 +1,6 @@
+{
+  "name": "SpringBoot project - testsite",
+  "description": "Maven 3.6.3-OpenJDK 15 / SpringBoot 2.3.3 / Tomcat jdk11",
+  "arguments": [
+  ]
+}
