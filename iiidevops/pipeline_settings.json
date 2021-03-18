@@ -1,6 +1,6 @@
 {
   "name": "SpringBoot project - testsite",
-  "description": "Maven 3.6.3-OpenJDK 15 / SpringBoot 2.3.3 / Tomcat jdk11",
+  "description": "Maven 3.6.3-OpenJDK 15 / SpringBoot 2.3.3 / Tomcat jdk11 <a class='el-link el-link--primary' href='https://github.com/iiidevops-templates/spring-postgresql-template2/blob/master/README.md' target='_blank'>簡易網頁範本說明</a>",
   "arguments": [
   ]
 }
