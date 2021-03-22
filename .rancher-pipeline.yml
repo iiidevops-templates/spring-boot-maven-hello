@@ -18,6 +18,29 @@ stages:
         include:
         - master
         - develop
+
+- name: Test--Checkmarx source code scan
+  steps:
+  - applyAppConfig:
+      catalogTemplate: cattle-global-data:iii-dev-charts3-scan-checkmarx
+      version: 0.1.0
+      name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-cmx
+      targetNamespace: ${CICD_GIT_REPO_NAME}
+      answers:
+        # Test common answers
+        pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
+        git.url: ${CICD_GIT_URL}
+        git.repoName: ${CICD_GIT_REPO_NAME}
+        git.branch: ${CICD_GIT_BRANCH}
+        git.commitID: ${CICD_GIT_COMMIT}
+  when:
+    branch:
+      include:
+        - master
+        - develop
+
+- name: Deploy--Setting Web environment variables
+  steps:
   # 需要符合Rancher版本
   - runScriptConfig:
       image: iiiorg/rancher-cli:v2.4.6
@@ -37,28 +60,12 @@ stages:
     - sourceKey: rancher-url
       sourceName: rancher
       targetKey: rancher_url
-
-- name: Checkmarx source code scan
-  steps:
-  - applyAppConfig:
-      catalogTemplate: cattle-global-data:iii-dev-charts3-scan-checkmarx
-      version: 0.1.0
-      name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-cmx
-      targetNamespace: ${CICD_GIT_REPO_NAME}
-      answers:
-        # Test common answers
-        pipeline.sequence: ${CICD_EXECUTION_SEQUENCE}
-        git.url: ${CICD_GIT_URL}
-        git.repoName: ${CICD_GIT_REPO_NAME}
-        git.branch: ${CICD_GIT_BRANCH}
-        git.commitID: ${CICD_GIT_COMMIT}
-  when:
-    branch:
-      include:
+    when:
+      branch:
+        include:
         - master
-        - checkmarx
 
-- name: Deploy app-web
+- name: Deploy--Web
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:iii-dev-charts3-web
@@ -78,9 +85,8 @@ stages:
       branch:
         include:
           - master
-          - develop
 
-- name: Wait web deployment
+- name: Deploy--Wait Web deployment
   steps:
   - runScriptConfig:
       image: iiiorg/deployment-waiter:0.0.2
@@ -103,7 +109,7 @@ stages:
         include:
           - master
 
-- name: Postman test
+- name: Test--Postman
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:iii-dev-charts3-test-postman
@@ -124,7 +130,7 @@ stages:
       include:
         - master
 
-- name: Webinspect test
+- name: Test--Webinspect
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:iii-dev-charts3-test-webinspect
@@ -142,22 +148,3 @@ stages:
     branch:
       include:
         - master
-
-- name: Test--Sonarqube source code scan
-  steps:
-  - applyAppConfig:
-      catalogTemplate: cattle-global-data:iii-dev-charts3-scan-sonarqube
-      version: 0.1.0
-      name: "${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-sq"
-      targetNamespace: "${CICD_GIT_REPO_NAME}"
-      answers:
-        git.branch: "${CICD_GIT_BRANCH}"
-        git.commitID: "${CICD_GIT_COMMIT}"
-        git.repoName: "${CICD_GIT_REPO_NAME}"
-        git.url: "${CICD_GIT_URL}"
-        pipeline.sequence: "${CICD_EXECUTION_SEQUENCE}"
-    when:
-      branch:
-        include:
-        - master
-        - develop
