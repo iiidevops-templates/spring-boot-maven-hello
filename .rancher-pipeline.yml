@@ -69,7 +69,7 @@ stages:
   steps:
   - applyAppConfig:
       catalogTemplate: cattle-global-data:iii-dev-charts3-web
-      version: 0.5.0
+      version: 0.5.1
       name: ${CICD_GIT_REPO_NAME}-${CICD_GIT_BRANCH}-serv
       targetNamespace: ${CICD_GIT_REPO_NAME}
       answers:
