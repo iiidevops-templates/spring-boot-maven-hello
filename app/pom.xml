@@ -47,6 +47,7 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -62,7 +63,34 @@
           		<artifactId>jacoco-maven-plugin</artifactId>
           		<version>0.8.6</version>
         	</plugin>
+
 		</plugins>
+		</pluginManagement>
 	</build>
+
+	<profiles>
+    <profile>
+      <id>coverage</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
