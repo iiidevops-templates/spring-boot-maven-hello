@@ -1,3 +1,0 @@
-如要修改這範本, 請由 GitLab clone 更改
-
-http://gitlab-demo.iiidevops.org/root/java-spring-boot-app-maven.git
