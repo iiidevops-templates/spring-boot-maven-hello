@@ -131,7 +131,7 @@ stages:
     branch:
       include:
       - master
-- name: Test--Webinspect
+- name: Test--WebInspect
   steps:
   - applyAppConfig:
       answers:
@@ -167,7 +167,7 @@ stages:
     branch:
       include:
       - master
-- name: Test Sideex Runner
+- name: Test--SideeX
   steps:
   - applyAppConfig:
       answers:
