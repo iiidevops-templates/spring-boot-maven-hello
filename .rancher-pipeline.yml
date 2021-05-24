@@ -1,5 +1,5 @@
 stages:
-- name: build and push docker image
+- name: Build--build and push docker image
   steps:
   - env:
       PLUGIN_BUILD_ARGS: --progress=tty --network=host
@@ -24,8 +24,8 @@ stages:
       image: library/maven:3.6.3-openjdk-11
       shellScript: ls && cd app && mvn install -DskipTests && mvn clean -DskipTests
         verify sonar:sonar -Dsonar.host.url=http://sonarqube-server-service.default:9000
-        -Dsonar.projectName=\${CICD_GIT_REPO_NAME} -Dsonar.projectKey=\${CICD_GIT_REPO_NAME}
-        -Dsonar.projectVersion=\${CICD_GIT_BRANCH}:\${CICD_GIT_COMMIT} -Dsonar.log.level=DEBUG
+        -Dsonar.projectName=${CICD_GIT_REPO_NAME} -Dsonar.projectKey=${CICD_GIT_REPO_NAME}
+        -Dsonar.projectVersion=${CICD_GIT_BRANCH}:${CICD_GIT_COMMIT} -Dsonar.log.level=DEBUG
         -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=600
   when:
     branch:
