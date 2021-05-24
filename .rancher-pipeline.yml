@@ -22,10 +22,11 @@ stages:
   steps:
   - runScriptConfig:
       image: library/maven:3.6.3-openjdk-11
-      shellScript: ls && cd app && mvn clean install && mvn clean verify sonar:sonar
-        -Dsonar.host.url=http://sonarqube-server-service.default:9000 -Dsonar.projectName=${CICD_GIT_REPO_NAME}
-        -Dsonar.projectKey=${CICD_GIT_REPO_NAME} -Dsonar.projectVersion=${CICD_GIT_BRANCH}:${CICD_GIT_COMMIT}
-        -Dsonar.log.level=DEBUG -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=600
+      shellScript: ls && cd app && mvn install -DskipTests && mvn clean -DskipTests
+        verify sonar:sonar -Dsonar.host.url=http://sonarqube-server-service.default:9000
+        -Dsonar.projectName=\${CICD_GIT_REPO_NAME} -Dsonar.projectKey=\${CICD_GIT_REPO_NAME}
+        -Dsonar.projectVersion=\${CICD_GIT_BRANCH}:\${CICD_GIT_COMMIT} -Dsonar.log.level=DEBUG
+        -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=600
   when:
     branch:
       include:
