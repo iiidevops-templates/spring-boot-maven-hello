@@ -1,6 +1,6 @@
 {
   "name": "Java Spring Boot (Maven) - Testsite",
-  "description": "Maven 3.6.3-OpenJDK 15 / SpringBoot 2.3.3 / Tomcat jdk11 <a class='el-link el-link--primary' href='https://github.com/iiidevops-templates/java-spring-boot-app-maven/blob/master/README.md' target='_blank'>簡易網頁範本說明</a>",
+  "description": "Maven 3.6.3-OpenJDK 15 / SpringBoot 2.3.3 / Tomcat jdk11 <a class='el-link el-link--primary' href='https://github.com/iiidevops-templates/java-spring-boot-app-maven/blob/master/README.md' target='_blank'>簡易網頁範本說明</a><hr size=1 /><b>v1.8.0</b><li>支援 SideeX 多測試檔功能<li>彙整 III DevOps Pipeline 相關 Stage 在 UI 統一開關功能",
   "arguments": [
   ]
 }
