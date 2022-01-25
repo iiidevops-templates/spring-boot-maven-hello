@@ -17,6 +17,24 @@ stages:
       include:
       - master
       - develop
+- name: Test--SonarQube for Java(Maven)
+  iiidevops: sonarqube
+  steps:
+  - envFrom:
+    - sourceKey: API_TOKEN
+      sourceName: pipeline-api-key
+      targetKey: rancher_api_token
+    - sourceKey: rancher-url
+      sourceName: rancher
+      targetKey: rancher_url
+    runScriptConfig:
+      image: library/maven:3.6.3-openjdk-11
+      shellScript: chmod 777 SonarScan.sh; ./SonarScan.sh
+  when:
+    branch:
+      include:
+      - master
+      - develop
 - name: get-sonar-token
   iiidevops: get-token
   steps:
