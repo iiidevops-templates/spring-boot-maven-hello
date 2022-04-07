@@ -55,6 +55,15 @@ mvn clean -DskipTests verify sonar:sonar -Dsonar.host.url=http://sonarqube-serve
 	-Dsonar.log.level=DEBUG -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=600\
 	-Dsonar.login=$SONAR_TOKEN
 ```
+
+### 程式覆蓋率教學
+```
+1.確認有哪些code需要Coverage
+2.在test case新增test function
+3.在該test function呼叫需覆蓋的功能function
+4.可透過IDE的Coverage As junit test確認覆蓋的地方
+
+```
 ### jacoco Coverage 參考說明
 https://dzone.com/articles/reporting-code-coverage-using-maven-and-jacoco-plu
 https://blog.miniasp.com/post/2021/08/11/Spring-Boot-Maven-JaCoCo-Test-Coverage-Report-in-VSCode
