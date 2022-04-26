@@ -31,7 +31,6 @@ stages:
   when:
     branch:
       include:
-      - master
       - develop
 - name: Test--Checkmarx source code scan
   iiidevops: checkmarx
@@ -52,7 +51,6 @@ stages:
     branch:
       include:
       - skip-master
-      - master
 - name: Deploy--Set Web environment variables
   iiidevops: deployed-environments
   steps:
@@ -167,7 +165,6 @@ stages:
     branch:
       include:
       - skip-master
-      - master
 - name: Test--WebInspect
   iiidevops: webinspect
   steps:
@@ -209,7 +206,6 @@ stages:
     branch:
       include:
       - skip-master
-      - master
 - name: Test--SideeX
   iiidevops: sideex
   steps:
@@ -231,4 +227,3 @@ stages:
     branch:
       include:
       - skip-master
-      - master
