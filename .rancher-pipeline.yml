@@ -36,7 +36,6 @@ stages:
     branch:
       include:
       - master
-      - develop
 - name: Test--Checkmarx source code scan
   iiidevops: checkmarx
   steps:
@@ -55,7 +54,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Deploy--Set Web environment variables
   iiidevops: deployed-environments
   steps:
@@ -79,7 +78,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Build--Build and push docker image
   iiidevops: deployed-environments
   steps:
@@ -98,7 +97,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Build--Scan docker image
   iiidevops: deployed-environments
   steps:
@@ -113,7 +112,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Deploy--Web
   iiidevops: deployed-environments
   steps:
@@ -142,7 +141,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Deploy--Wait Web deployment
   iiidevops: deployed-environments
   steps:
@@ -164,7 +163,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Test--Anchore SBOM
   iiidevops: anchore
   steps:
@@ -184,7 +183,7 @@ stages:
   when:
     branch:
       include:
-      - master
+      - skip
 - name: Test--ZAP
   iiidevops: zap
   steps:
@@ -205,7 +204,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Test--WebInspect
   iiidevops: webinspect
   steps:
@@ -246,7 +245,7 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
 - name: Test--SideeX
   iiidevops: sideex
   steps:
@@ -267,4 +266,4 @@ stages:
   when:
     branch:
       include:
-      - skip-master
+      - skip
